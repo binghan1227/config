@@ -38,6 +38,7 @@ return {
 				},
 			},
 			["clangd"] = {},
+			["pyright"] = {},
 		}
 
 		for server, config in pairs(servers) do
