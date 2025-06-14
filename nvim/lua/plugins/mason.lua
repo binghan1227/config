@@ -3,7 +3,7 @@ return {
 	event = "VeryLazy",
 	dependencies = {
 		"neovim/nvim-lspconfig",
-		"williamboman/mason-lspconfig.nvim",
+		"mason-org/mason-lspconfig.nvim",
 	},
 	opts = {},
 	config = function(_, opts)
@@ -24,7 +24,8 @@ return {
 				client.server_capabilities.documentFormattingProvider = false
 				client.server_capabilities.documentRangeFormattingProvider = false
 			end
-			require("lspconfig")[nvim_lsp].setup(config)
+			-- require("lspconfig")[nvim_lsp].setup(config)
+			vim.lsp.config(nvim_lsp, config)
 		end
 
 		local servers = {
@@ -39,6 +40,7 @@ return {
 			},
 			["clangd"] = {},
 			["pyright"] = {},
+			["rust-analyzer"] = {},
 		}
 
 		for server, config in pairs(servers) do
