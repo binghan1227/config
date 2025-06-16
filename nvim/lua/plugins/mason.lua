@@ -19,13 +19,20 @@ return {
 			end
 
 			local nvim_lsp = require("mason-lspconfig").get_mappings().package_to_lspconfig[name]
-			config.capabilities = require("blink.cmp").get_lsp_capabilities()
+			-- if nvim_lsp == nil then
+			-- 	print(name)
+			-- 	return
+			-- end
+			config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+
 			config.on_attach = function(client)
 				client.server_capabilities.documentFormattingProvider = false
 				client.server_capabilities.documentRangeFormattingProvider = false
 			end
-			-- require("lspconfig")[nvim_lsp].setup(config)
-			vim.lsp.config(nvim_lsp, config)
+			require("lspconfig")[nvim_lsp].setup(config)
+			-- print(require("mason-lspconfig").get_mappings().package_to_lspconfig["codelldb"])
+			-- vim.lsp.config(nvim_lsp, config)
+			-- vim.lsp.config("pyright", {})
 		end
 
 		local servers = {
@@ -41,6 +48,7 @@ return {
 			["clangd"] = {},
 			["pyright"] = {},
 			["rust-analyzer"] = {},
+			-- ["codelldb"] = {},
 		}
 
 		for server, config in pairs(servers) do
@@ -48,6 +56,7 @@ return {
 		end
 
 		vim.cmd("LspStart")
+
 		vim.diagnostic.config({
 			virtual_text = true,
 			update_in_insert = true,

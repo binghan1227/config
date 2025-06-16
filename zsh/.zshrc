@@ -8,7 +8,7 @@ plugins=(
 	auto-notify $plugins
 )
 alias vim="nvim"
-function y() {
+function R() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
 	yazi "$@" --cwd-file="$tmp"
 	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
@@ -18,3 +18,4 @@ function y() {
 }
 
 eval "$(zoxide init zsh --cmd cd )"
+
