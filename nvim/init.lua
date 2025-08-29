@@ -1,3 +1,5 @@
 require("config.defaults")
 require("config.plugins")
 require("config.keymaps")
+require("config.folding")
+require("config.cp")

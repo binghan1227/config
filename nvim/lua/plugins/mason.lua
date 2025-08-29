@@ -45,9 +45,15 @@ return {
 					},
 				},
 			},
-			["clangd"] = {},
+			["clangd"] = {
+				cmd = { "clangd", "--background-index", "--clang-tidy", "--header-insertion=never" },
+			},
 			["pyright"] = {},
-			["rust-analyzer"] = {},
+			["rust-analyzer"] = {
+				checkOnSave = {
+					command = "clippy",
+				},
+			},
 			-- ["codelldb"] = {},
 		}
 

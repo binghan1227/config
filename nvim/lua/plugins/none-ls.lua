@@ -26,7 +26,9 @@ return {
 			sources = {
 				null_ls.builtins.formatting.stylua,
 				null_ls.builtins.formatting.pyink,
-				null_ls.builtins.formatting.clang_format,
+				null_ls.builtins.formatting.clang_format.with({
+					extra_args = { "--style=file" },
+				}),
 				-- null_ls.builtins.formatting.rustfmt.with({
 				-- 	extra_args = function(params)
 				--     local Path = require("plenary.path")

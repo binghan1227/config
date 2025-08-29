@@ -14,3 +14,5 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.hlsearch = false
 vim.o.showmode = false
+
+vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
