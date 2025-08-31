@@ -17,6 +17,14 @@ wk.add({
 	{ "<leader>l", group = "LSP" },
 })
 
+-- Yank whole file to system clipboard without moving the cursor
+vim.keymap.set("n", "<leader>y", function()
+	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, true)
+	-- Put as *linewise* text into the + register (system clipboard)
+	vim.fn.setreg("+", lines, "l")
+	vim.notify("Yank entire file to +", vim.log.levels.INFO)
+end, { desc = "Yank entire file to + (clipboard)" })
+
 -- local nmappings = {
 -- 	{ from = "<leader>wo",     to = "<C-w>o", },
 -- 	{ from = "<leader>wj",     to = "<C-w>j", },

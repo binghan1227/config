@@ -33,11 +33,21 @@ vim.api.nvim_create_autocmd("BufEnter", {
 			return false
 		end
 
+		local is_term_open = function()
+			for _, win in ipairs(vim.api.nvim_list_wins()) do
+				if vim.bo[vim.api.nvim_win_get_buf(win)].buftype == "terminal" then
+					return true
+				end
+			end
+			return false
+		end
+
 		-- If neither 'in' nor 'out' is open, create the split layout
-		if not is_buf_open("in") and not is_buf_open("out") then
+		if not is_buf_open("in") and not is_buf_open("out") and not is_term_open() then
 			-- MODIFICATION HERE: Create a 40-column wide vertical split.
 			vim.cmd("40vsplit " .. vim.fn.fnameescape(inFile))
 			vim.cmd("split " .. vim.fn.fnameescape(outFile))
+			vim.cmd("15split | terminal") -- Open a 15-line terminal below 'out'
 			vim.cmd("wincmd l")
 		end
 	end,
@@ -66,9 +76,8 @@ function M.compile_and_run()
 		vim.fn.mkdir(bin_dir, "p")
 	end
 
-	-- CORRECTED COMMAND: Removed 'run' and added the '-m' flag for specifying the machine.
 	local command = string.format(
-		"orb -m %s bash -c 'cd %s && g++ %s.cpp -o bin/%s && ./bin/%s < in > out && cat out && echo \"\n[Finished]\"' ",
+		"orb -m %s bash -c 'cd %s && g++ %s.cpp -o bin/%s && time ./bin/%s < in > out && cat out' ",
 		orb_machine,
 		vim.fn.fnameescape(dir),
 		filename_no_ext,
@@ -76,29 +85,28 @@ function M.compile_and_run()
 		filename_no_ext
 	)
 
-	-- (The rest of the function for opening the terminal remains the same)
-	local term_buf = vim.api.nvim_create_buf(false, true)
-	local width = math.floor(vim.o.columns * 0.8)
-	local height = math.floor(vim.o.lines * 0.8)
-	local row = math.floor((vim.o.lines - height) / 2)
-	local col = math.floor((vim.o.columns - width) / 2)
+	-- Find the open terminal buffer
+	local term_buf = nil
+	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+		if vim.bo[buf].buftype == "terminal" then
+			term_buf = buf
+			break
+		end
+	end
 
-	vim.api.nvim_open_win(term_buf, true, {
-		relative = "editor",
-		width = width,
-		height = height,
-		row = row,
-		col = col,
-		style = "minimal",
-		border = "rounded",
-		title = "Compilation Output",
-		title_pos = "center",
-	})
-
-	vim.fn.termopen(command)
-	vim.cmd("startinsert")
-	vim.api.nvim_buf_set_keymap(term_buf, "n", "q", ":close<CR>", { noremap = true, silent = true })
-	vim.api.nvim_buf_set_keymap(term_buf, "t", "<Esc>", "<C-\\><C-n>:close<CR>", { noremap = true, silent = true })
+	-- If a terminal is found, send the command to it
+	if term_buf then
+		local job_id = vim.b[term_buf].terminal_job_id
+		if job_id and job_id > 0 then
+			-- Send the command to the terminal's job, adding '\r' to simulate pressing Enter
+			vim.fn.chansend(job_id, command .. "\r")
+			vim.notify("Command sent to terminal.", vim.log.levels.INFO)
+		else
+			vim.notify("Terminal found, but no job is running.", vim.log.levels.ERROR)
+		end
+	else
+		vim.notify("No terminal window found.", vim.log.levels.ERROR)
+	end
 end
 
 -- Map the function to a convenient shortcut
