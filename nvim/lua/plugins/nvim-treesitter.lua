@@ -20,7 +20,7 @@ return {
         local nvim_treesitter = require "nvim-treesitter"
         nvim_treesitter.setup()
 
-        local ensure_installed = { "lua", "cpp", "python", "latex", "markdown", "rust" }
+        local ensure_installed = { "lua", "cpp", "python", "latex", "markdown", "rust", "java" }
 
         local pattern = {}
         for _, parser in ipairs(ensure_installed) do

@@ -19,21 +19,17 @@ return {
 			end
 
 			local nvim_lsp = require("mason-lspconfig").get_mappings().package_to_lspconfig[name]
-			-- if nvim_lsp == nil then
-			-- 	print(name)
-			-- 	return
-			-- end
+			-- print(nvim_lsp)
 			config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-
+			--
 			config.on_attach = function(client)
 				client.server_capabilities.documentFormattingProvider = false
 				client.server_capabilities.documentRangeFormattingProvider = false
 			end
-			require("lspconfig")[nvim_lsp].setup(config)
-			-- print(require("mason-lspconfig").get_mappings().package_to_lspconfig["codelldb"])
-			-- vim.lsp.config(nvim_lsp, config)
-			-- vim.lsp.config("pyright", {})
+			-- require("lspconfig")[nvim_lsp].setup(config)
+			vim.lsp.config(nvim_lsp, config)
 		end
+
 
 		local servers = {
 			["lua-language-server"] = {
@@ -53,13 +49,21 @@ return {
 				checkOnSave = {
 					command = "clippy",
 				},
+				completion = {
+					callable = {
+						snippets = "add_parenthesis",
+					},
+				},
 			},
+			["asm-lsp"] = {},
 			-- ["codelldb"] = {},
 		}
 
 		for server, config in pairs(servers) do
 			setup(server, config)
 		end
+
+		-- vim.lsp.config("lua_ls", {})
 
 		vim.cmd("LspStart")
 

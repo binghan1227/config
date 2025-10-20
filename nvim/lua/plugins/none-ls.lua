@@ -20,6 +20,7 @@ return {
 		install("clang-format")
 		install("pyink")
 		install("rustfmt")
+		install("asmfmt")
 
 		local null_ls = require("null-ls")
 		null_ls.setup({
@@ -29,6 +30,7 @@ return {
 				null_ls.builtins.formatting.clang_format.with({
 					extra_args = { "--style=file" },
 				}),
+				null_ls.builtins.formatting.asmfmt,
 				-- null_ls.builtins.formatting.rustfmt.with({
 				-- 	extra_args = function(params)
 				--     local Path = require("plenary.path")

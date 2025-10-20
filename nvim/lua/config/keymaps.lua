@@ -25,6 +25,7 @@ vim.keymap.set("n", "<leader>y", function()
 	vim.notify("Yank entire file to +", vim.log.levels.INFO)
 end, { desc = "Yank entire file to + (clipboard)" })
 
+
 -- local nmappings = {
 -- 	{ from = "<leader>wo",     to = "<C-w>o", },
 -- 	{ from = "<leader>wj",     to = "<C-w>j", },
