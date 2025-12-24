@@ -1,0 +1,18 @@
+{
+  "Java Main + Scanner": {
+    "prefix": "jmain",
+    "body": [
+      "import java.util.*;",
+      "",
+      "public class ${TM_FILENAME_BASE:Main} {",
+      "    public static void main(String[] args) {",
+      "        Scanner in = new Scanner(System.in);",
+      "        $0",
+      "        in.close();",
+      "    }",
+      "}"
+    ],
+    "description": "Init Java file with Scanner"
+  }
+}
+

@@ -7,6 +7,7 @@ plugins=(
 	zsh-autosuggestions
 	auto-notify $plugins
 )
+alias java=/usr/bin/java
 alias vim="nvim"
 function R() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
