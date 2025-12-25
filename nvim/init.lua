@@ -1,6 +1,4 @@
 require("config.defaults")
-require("config.plugins")
+require("config.lazy")
 require("config.keymaps")
-require("config.folding")
-require("config.cp")
-require("config.tex")
+require("config.lsp")
