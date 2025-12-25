@@ -23,6 +23,7 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR><Esc>", { noremap = true, silen
 
 -- UI
 vim.opt.showmode = false
+vim.opt.termguicolors = true
 
 -- Smart per-file: keep tabs if file is mostly tab-indented
 local function apply_smart_indent(bufnr)
