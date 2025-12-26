@@ -11,6 +11,7 @@ vim.opt.expandtab = true
 vim.opt.autoindent = true
 
 -- Behavior
+vim.opt.undofile = true
 vim.opt.autoread = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
@@ -22,6 +23,7 @@ vim.opt.hlsearch = true
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR><Esc>", { noremap = true, silent = true })
 
 -- UI
+vim.opt.mouse = "a"
 vim.opt.showmode = false
 vim.opt.termguicolors = true
 

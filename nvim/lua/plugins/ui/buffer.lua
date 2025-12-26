@@ -2,7 +2,7 @@ return {
 	"akinsho/bufferline.nvim",
 	version = "*",
 	event = "VeryLazy",
-	dependencies = { "nvim-tree/nvim-web-devicons" },
+	dependencies = { "nvim-tree/nvim-web-devicons", "folke/snacks.nvim" },
 	opts = {
 		options = {
 			mode = "buffers",
@@ -19,6 +19,14 @@ return {
 			show_buffer_close_icons = true,
 			always_show_bufferline = true,
 
+			-- Snacks integration for buffer deletion
+			close_command = function(n)
+				Snacks.bufdelete(n)
+			end,
+			right_mouse_command = function(n)
+				Snacks.bufdelete(n)
+			end,
+
 			hover = {
 				enabled = true,
 				delay = 200,
@@ -30,6 +38,14 @@ return {
 				{
 					filetype = "neo-tree",
 					text = "Neo-tree",
+					highlight = "Directory",
+					text_align = "left",
+					separator = true,
+				},
+				-- Snacks explorer offset
+				{
+					filetype = "snacks_layout_box",
+					text = "󰙅 File Explorer",
 					highlight = "Directory",
 					text_align = "left",
 					separator = true,

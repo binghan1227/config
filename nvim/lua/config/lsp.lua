@@ -39,26 +39,26 @@ function M.on_attach(event)
 		vim.keymap.set("n", lhs, rhs, { buffer = bufnr, silent = true, desc = desc })
 	end
 
-	-- Core LSP
-	nmap("K", vim.lsp.buf.hover, "Hover")
+	-- Core LSP (using lspsaga for enhanced UI)
+	nmap("K", "<cmd>Lspsaga hover_doc<CR>", "Hover")
 	nmap("gD", vim.lsp.buf.declaration, "Go to declaration")
-	nmap("gd", vim.lsp.buf.definition, "Go to definition")
+	nmap("gd", "<cmd>Lspsaga peek_definition<CR>", "Peek definition")
 	nmap("gi", vim.lsp.buf.implementation, "Go to implementation")
-	nmap("gr", vim.lsp.buf.references, "Go to references")
+	nmap("gr", "<cmd>Lspsaga finder<CR>", "Find references/implementations")
 	nmap("gy", vim.lsp.buf.type_definition, "Go to type definition")
 
-	nmap("<leader>lr", vim.lsp.buf.rename, "Rename")
-	nmap("<leader>la", vim.lsp.buf.code_action, "Code action")
+	nmap("<leader>lr", "<cmd>Lspsaga rename<CR>", "Rename")
+	nmap("<leader>la", "<cmd>Lspsaga code_action<CR>", "Code action")
 	nmap("<leader>ls", vim.lsp.buf.signature_help, "Signature help")
 
 	-- Workspace
 	nmap("<leader>lW", vim.lsp.buf.workspace_symbol, "Workspace symbols")
-	nmap("<leader>lw", vim.lsp.buf.document_symbol, "Document symbols")
+	nmap("<leader>lw", "<cmd>Lspsaga outline<CR>", "Document symbols outline")
 
-	-- Diagnostics
-	nmap("<leader>ldo", vim.diagnostic.open_float, "Line diagnostics")
-	nmap("<leader>ldn", vim.diagnostic.goto_next, "Next diagnostic")
-	nmap("<leader>ldp", vim.diagnostic.goto_prev, "Prev diagnostic")
+	-- Diagnostics (using lspsaga for enhanced UI)
+	nmap("<leader>ldo", "<cmd>Lspsaga show_line_diagnostics<CR>", "Line diagnostics")
+	nmap("<leader>ldn", "<cmd>Lspsaga diagnostic_jump_next<CR>", "Next diagnostic")
+	nmap("<leader>ldp", "<cmd>Lspsaga diagnostic_jump_prev<CR>", "Prev diagnostic")
 	nmap("<leader>ldl", vim.diagnostic.setloclist, "To loclist")
 	nmap("<leader>ldq", vim.diagnostic.setqflist, "To quickfix")
 

@@ -5,6 +5,7 @@ return {
 		"nvim-lua/plenary.nvim",
 		"nvim-tree/nvim-web-devicons", -- icons
 		"MunifTanjim/nui.nvim",
+		"folke/snacks.nvim",
 	},
 	cmd = "Neotree",
 	keys = {
@@ -78,7 +79,12 @@ return {
 				["s"] = "open_vsplit",
 				["t"] = "open_tabnew",
 				["a"] = { "add", config = { show_path = "relative" } },
-				["r"] = "rename",
+				["r"] = function(state)
+					local node = state.tree:get_node()
+					if node and node.path then
+						Snacks.rename.rename_file(node.path)
+					end
+				end,
 				["d"] = "delete",
 				["y"] = "copy_to_clipboard",
 				["x"] = "cut_to_clipboard",

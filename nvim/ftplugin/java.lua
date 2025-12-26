@@ -2,7 +2,7 @@
 -- Starts even when project root markers aren't found (falls back to file dir).
 -- Also notifies you when something is missing.
 
-vim.notify = require("notify")
+-- After snacks loads, vim.notify already points to Snacks.notifier.notify
 
 local function notify(msg, level)
 	vim.notify(msg, level or vim.log.levels.INFO, { title = "jdtls" })
