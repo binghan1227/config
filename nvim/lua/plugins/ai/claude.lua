@@ -11,6 +11,12 @@ return {
 				},
 			},
 		},
+		diff_opts = {
+			auto_close_on_accept = true,
+			vertical_split = true,
+			open_in_current_tab = false, -- This opens diffs in a new tab instead
+			keep_terminal_focus = false,
+		},
 	},
 	terminal = { enabled = true },
 	keys = {

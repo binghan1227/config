@@ -1,41 +1,56 @@
 -- lua/plugins/utils/treesitter.lua
 return {
 	"nvim-treesitter/nvim-treesitter",
-	branch = "main",
-	lazy = false, -- main branch does not support lazy-loading
 	build = ":TSUpdate",
+	lazy = false,
+	priority = 900,
+	dependencies = {
+		"nvim-treesitter/nvim-treesitter-textobjects",
+	},
 	config = function()
-		local ts = require("nvim-treesitter")
+		-- Ensure the configs module exists before requiring
+		local ok, configs = pcall(require, "nvim-treesitter.configs")
+		if not ok then
+			vim.notify("nvim-treesitter.configs not found. Please run :Lazy sync", vim.log.levels.ERROR)
+			return
+		end
 
-		ts.setup({
-			-- keep default, or uncomment if you want a dedicated install dir:
-			-- install_dir = vim.fn.stdpath("data") .. "/site",
-		})
+		configs.setup({
+			-- Install parsers you use
+			ensure_installed = {
+				"lua",
+				"vim",
+				"vimdoc",
+				"query",
+				"java",
+				"python",
+				"rust",
+				"c",
+				"cpp",
+				"bash",
+				"json",
+				"yaml",
+				"toml",
+				"markdown",
+				"markdown_inline",
+			},
 
-		-- Install parsers you use (no-op if already installed)
-		ts.install({
-			"lua",
-			"vim",
-			"vimdoc",
-			"query",
-			"java",
-			"python",
-			"rust",
-			"c",
-			"cpp",
-			"bash",
-			"json",
-			"yaml",
-			"toml",
-			"markdown",
-			"markdown_inline",
-		})
+			-- Install parsers synchronously (only applied to `ensure_installed`)
+			sync_install = false,
 
-		-- Enable treesitter highlighting (required for IBL scope to work)
-		vim.api.nvim_create_autocmd("FileType", {
-			callback = function()
-				pcall(vim.treesitter.start)
-			end,
+			-- Automatically install missing parsers when entering buffer
+			auto_install = true,
+
+			-- Enable syntax highlighting
+			highlight = {
+				enable = true,
+				additional_vim_regex_highlighting = false,
+			},
+
+			-- Enable indentation
+			indent = {
+				enable = true,
+			},
 		})
 	end,
 }
