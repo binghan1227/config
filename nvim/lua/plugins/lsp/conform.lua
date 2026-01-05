@@ -14,6 +14,7 @@ return {
 					cpp = { "clang_format" },
 					rust = { "rustfmt" }, -- rustfmt via rustup (recommended)
 					java = { "google_java_format" },
+					haskell = { "fourmolu" },
 				},
 
 				format_on_save = function(bufnr)

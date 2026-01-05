@@ -52,6 +52,7 @@ return {
 					"pyright",
 					"lua-language-server",
 					"jdtls",
+					"haskell-language-server",
 
 					-- Java extras (optional but makes nvim-jdtls much nicer)
 					"java-test",
@@ -63,6 +64,7 @@ return {
 					"black",
 					"isort",
 					"google-java-format",
+					"fourmolu",
 				},
 				auto_update = false,
 				run_on_start = true,
@@ -76,6 +78,7 @@ return {
 				"rust_analyzer",
 				"pyright",
 				"lua_ls",
+				"hls",
 			})
 		end,
 	},
