@@ -72,7 +72,26 @@ return {
 				debounce_hours = 24,
 			})
 
-			-- Enable only the LSP configs you want (Java is handled by nvim-jdtls in ftplugin/java.lua)
+			-- Get capabilities for completion integration
+			local capabilities = lsp_helpers.capabilities()
+
+			-- Set default config for all LSP servers with capabilities
+			vim.lsp.config("*", {
+				capabilities = capabilities,
+			})
+
+			-- Configure HLS with specific settings
+			vim.lsp.config("hls", {
+				cmd = { "haskell-language-server-wrapper", "--lsp" },
+				capabilities = capabilities,
+				settings = {
+					haskell = {
+						formattingProvider = "fourmolu",
+					},
+				},
+			})
+
+			-- Enable LSP configs (Java is handled by nvim-jdtls in ftplugin/java.lua)
 			vim.lsp.enable({
 				"clangd",
 				"rust_analyzer",
