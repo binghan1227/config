@@ -19,7 +19,12 @@ return {
 
 				formatters = {
 					ruff_format = {
-						prepend_args = { "--config", "quote-style='single'" },
+						append_args = {
+							"--config",
+							"format.quote-style='single'",
+							"--config",
+							"format.skip-magic-trailing-comma=false",
+						},
 					},
 				},
 
