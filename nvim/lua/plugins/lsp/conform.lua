@@ -9,12 +9,18 @@ return {
 			conform.setup({
 				formatters_by_ft = {
 					lua = { "stylua" },
-					python = { "isort", "black" },
+					python = { "isort", "ruff_format" },
 					c = { "clang_format" },
 					cpp = { "clang_format" },
 					rust = { "rustfmt" }, -- rustfmt via rustup (recommended)
 					java = { "google_java_format" },
 					haskell = { "fourmolu" },
+				},
+
+				formatters = {
+					ruff_format = {
+						prepend_args = { "--config", "quote-style='single'" },
+					},
 				},
 
 				format_on_save = function(bufnr)
