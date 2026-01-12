@@ -5,4 +5,5 @@ return {
 	{ import = "plugins.utils" },
 	{ import = "plugins.lsp" },
 	{ import = "plugins.git" },
+	{ import = "plugins.debug" },
 }
