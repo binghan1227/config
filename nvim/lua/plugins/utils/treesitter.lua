@@ -1,23 +1,34 @@
--- lua/plugins/utils/treesitter.lua
 return {
 	"nvim-treesitter/nvim-treesitter",
 	build = ":TSUpdate",
 	lazy = false,
-	priority = 900,
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter-textobjects",
+		branch = "main",
 	},
 	config = function()
-		-- Ensure the configs module exists before requiring
-		local ok, configs = pcall(require, "nvim-treesitter.configs")
-		if not ok then
-			vim.notify("nvim-treesitter.configs not found. Please run :Lazy sync", vim.log.levels.ERROR)
-			return
-		end
+		local treesitter = require("nvim-treesitter")
+		treesitter.setup()
+		treesitter.install({
+			"lua",
+			"vim",
+			"vimdoc",
+			"query",
+			"java",
+			"python",
+			"rust",
+			"c",
+			"cpp",
+			"bash",
+			"json",
+			"yaml",
+			"toml",
+			"markdown",
+			"markdown_inline",
+		})
 
-		configs.setup({
-			-- Install parsers you use
-			ensure_installed = {
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = {
 				"lua",
 				"vim",
 				"vimdoc",
@@ -34,23 +45,15 @@ return {
 				"markdown",
 				"markdown_inline",
 			},
-
-			-- Install parsers synchronously (only applied to `ensure_installed`)
-			sync_install = false,
-
-			-- Automatically install missing parsers when entering buffer
-			auto_install = true,
-
-			-- Enable syntax highlighting
-			highlight = {
-				enable = true,
-				additional_vim_regex_highlighting = false,
-			},
-
-			-- Enable indentation
-			indent = {
-				enable = true,
-			},
+			callback = function()
+				-- syntax highlighting, provided by Neovim
+				vim.treesitter.start()
+				-- folds, provided by Neovim (I don't like folds)
+				-- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+				-- vim.wo.foldmethod = 'expr'
+				-- indentation, provided by nvim-treesitter
+				vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+			end,
 		})
 	end,
 }
