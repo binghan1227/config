@@ -2,7 +2,20 @@ return {
 	{
 		"stevearc/conform.nvim",
 		event = { "BufWritePre" },
-		dependencies = { "folke/which-key.nvim" },
+		keys = {
+			{
+				"<leader>lf",
+				function()
+					require("conform").format({ async = true })
+				end,
+				mode = "",
+				desc = "Format buffer",
+			},
+		},
+		init = function()
+			-- If you want the formatexpr, here is the place to set it
+			vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+		end,
 		config = function()
 			local conform = require("conform")
 
@@ -19,30 +32,24 @@ return {
 
 				formatters = {
 					ruff_format = {
-						prepend_args = { "--config", "quote-style='single'" },
+						append_args = {
+							"--config",
+							"format.quote-style='single'",
+							"--config",
+							"format.skip-magic-trailing-comma=false",
+						},
 					},
 				},
 
 				format_on_save = function(bufnr)
-					-- Keep it predictable and fast
-					return {
-						bufnr = bufnr,
-						timeout_ms = 2000,
-						lsp_fallback = true,
-					}
+					return
+					-- {
+					-- 	bufnr = bufnr,
+					-- 	timeout_ms = 2000,
+					-- 	lsp_fallback = true,
+					-- }
 				end,
 			})
-
-			-- which-key group label (global)
-			local wk_ok, wk = pcall(require, "which-key")
-			if wk_ok then
-				wk.add({ { "<leader>l", group = "LSP" } })
-			end
-
-			-- Manual format mapping (requested)
-			vim.keymap.set({ "n", "v" }, "<leader>lf", function()
-				conform.format({ lsp_fallback = true, timeout_ms = 2000 })
-			end, { desc = "Format (Conform)" })
 		end,
 	},
 }
