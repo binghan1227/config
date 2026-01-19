@@ -6,4 +6,5 @@ return {
 	{ import = "plugins.lsp" },
 	{ import = "plugins.git" },
 	{ import = "plugins.debug" },
+	{ import = "plugins.latex" },
 }
